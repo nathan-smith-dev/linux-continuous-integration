@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 require('./routes/integrationRoutes')(app);
 
 app.get('*', (req, res) => {
-    res.status(404).send('Not found on inux continuous integration server');
+    res.status(404).send('Not found on Linux continuous integration server');
 });
 
 const PORT = process.env.PORT || 1212;

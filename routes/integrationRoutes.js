@@ -16,7 +16,7 @@ module.exports = (app) => {
     app.use(webhookHandler);
 
     webhookHandler.on('push', (repo) => {
-        const repoPath = path.resolve(config.repos[repo]);
+        const repoPath = path.normalize(config.repos[repo]);
         switch (repo) {
         case 'testRepo':
             logger.info(`Building ${repo} in ${repoPath}...`);
