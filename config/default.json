@@ -1,3 +1,6 @@
 {
-    "logfile": "logs/logfile.log"
+    "logfile": "logs/logfile.log", 
+    "repos": {
+        "testRepo": ""
+    }
 }
