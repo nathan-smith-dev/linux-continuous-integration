@@ -23,5 +23,8 @@ module.exports = (repo, repoPath) => {
     // and npm install with --production
     exec(`npm -C ${repoPath} install --production`, execCallback);
 
+    // restart server
+    exec(`pm2 restart ${repo}`);
+
     logger.info(`Build successful for ${repo} in ${repoPath}`);
 };
