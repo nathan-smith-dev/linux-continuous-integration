@@ -1,6 +1,6 @@
 {
     "logfile": "logs/logfile.log", 
     "repos": {
-        "testRepo": ""
+        "easy-dev-api": ""
     }
 }
