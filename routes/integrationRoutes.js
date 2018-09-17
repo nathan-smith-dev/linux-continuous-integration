@@ -4,7 +4,7 @@ const path = require('path');
 const logger = require('../logger');
 const buildService = require('../services/buildService');
 
-const webhookHandler = GithubWebHook({ path: '/servers/easydevapi', secret: process.env.GITHUB_SECRET });
+const webhookHandler = GithubWebHook({ path: '/servers/build', secret: process.env.GITHUB_SECRET });
 
 module.exports = (app) => {
     app.use(webhookHandler);
