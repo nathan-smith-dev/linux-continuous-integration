@@ -39,6 +39,6 @@ async function executePostBuildScripts(repoPath) {
     const postbuildScript = json.scripts['ns-postbuild'];
     if (postbuildScript) {
         logger.info(`Executing post build script for: ${postbuildScript}`);
-        exec(postbuildScript);
+        exec(postbuildScript, { cwd: repoPath });
     }
 }
