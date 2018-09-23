@@ -1,14 +1,9 @@
 const { exec } = require('child_process');
+const fs = require('fs-extra');
+const path = require('path');
 const logger = require('../logger');
 
-function execCallback(err, stdout, stderr) {
-    if (err) logger.error(err);
-    if (stdout) logger.info(stdout);
-    if (stderr) logger.error(stderr);
-}
-
-
-module.exports = (repo, repoPath) => {
+module.exports = async (repo, repoPath) => {
     logger.info(`Building ${repo} in ${repoPath}...`);
 
     // reset any changes that have been made locally
@@ -27,4 +22,23 @@ module.exports = (repo, repoPath) => {
     exec(`pm2 restart ${repo}`);
 
     logger.info(`Build successful for ${repo} in ${repoPath}`);
+
+    await executePostBuildScripts(repoPath);
 };
+
+function execCallback(err, stdout, stderr) {
+    if (err) logger.error(err);
+    if (stdout) logger.info(stdout);
+    if (stderr) logger.error(stderr);
+}
+
+async function executePostBuildScripts(repoPath) {
+    const file = await fs.readFile(path.resolve(repoPath, 'package.json'));
+    const json = JSON.parse(file);
+
+    const postbuildScript = json['ns-postbuild'];
+    if (postbuildScript) {
+        logger.info(`Executing post build script for: ${postbuildScript}`);
+        exec(postbuildScript);
+    }
+}

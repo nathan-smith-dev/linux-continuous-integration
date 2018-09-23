@@ -6,6 +6,7 @@
  "browser": true
  },
  "rules": {
-   "indent": [2, 4]  
+   "indent": [2, 4], 
+   "no-use-before-define": "off"
  }
 }
