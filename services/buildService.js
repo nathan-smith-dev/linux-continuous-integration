@@ -36,7 +36,7 @@ async function executePostBuildScripts(repoPath) {
     const file = await fs.readFile(path.resolve(repoPath, 'package.json'));
     const json = JSON.parse(file);
 
-    const postbuildScript = json['ns-postbuild'];
+    const postbuildScript = json.scripts['ns-postbuild'];
     if (postbuildScript) {
         logger.info(`Executing post build script for: ${postbuildScript}`);
         exec(postbuildScript);
