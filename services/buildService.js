@@ -69,7 +69,7 @@ async function executeGitCommands(repoPath) {
                 if (err || stderr) reject(err || stderr);
 
                 logger.info('Pulling latest code from repository');
-                exec(`git -C ${repoPath} pull -f`, (err, stdout, stderr) => {
+                exec(`git -C ${repoPath} pull origin master`, (err, stdout, stderr) => {
                     execCallback(err, stdout, stderr);
                     if (err || stderr) reject(err || stderr);
 
