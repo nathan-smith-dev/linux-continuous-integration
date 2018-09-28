@@ -26,7 +26,7 @@ module.exports = async (repo, repoPath) => {
 function execCallback(err, stdout, stderr) {
     if (err) logger.error(err);
     if (stdout) logger.info(stdout);
-    if (stderr) logger.error(stderr);
+    if (stderr) logger.warn(stderr);
 }
 
 /**
@@ -43,7 +43,7 @@ async function executePostBuildScripts(repoPath) {
             logger.info(`--- Executing post build script for: ${postbuildScript} ---`);
             exec(postbuildScript, { cwd: repoPath }, (err, stdout, stderr) => {
                 execCallback(err, stdout, stderr);
-                if (err || stderr) reject(err || stderr);
+                if (err) reject(err);
                 resolve();
             });
         }
@@ -61,17 +61,17 @@ async function executeGitCommands(repoPath) {
         logger.info('Resetting any changes that have been made locally');
         exec(`git -C ${repoPath} reset --hard`, (err, stdout, stderr) => {
             execCallback(err, stdout, stderr);
-            if (err || stderr) reject(err || stderr);
+            if (err) reject(err);
 
             logger.info('Clearing locally made changes.');
             exec(`git -C ${repoPath} clean -df`, (err, stdout, stderr) => {
                 execCallback(err, stdout, stderr);
-                if (err || stderr) reject(err || stderr);
+                if (err) reject(err);
 
                 logger.info('Pulling latest code from repository');
                 exec(`git -C ${repoPath} pull origin master`, (err, stdout, stderr) => {
                     execCallback(err, stdout, stderr);
-                    if (err || stderr) reject(err || stderr);
+                    if (err) reject(err);
 
                     resolve();
                 });
@@ -89,7 +89,7 @@ async function executeInstallProductionModules(repoPath) {
     return new Promise((resolve, reject) => {
         exec(`npm -C ${repoPath} install --production`, (err, stdout, stderr) => {
             execCallback(err, stdout, stderr);
-            if (err || stderr) reject(err || stderr);
+            if (err) reject(err);
 
             resolve();
         });
