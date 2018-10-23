@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 // routes
 app.use('/servers', githubWebhookRoutes);
 app.use('/development', require('./routes/developmentRoutes'));
-// app.use(require('./routes/integrationRoutes'));
 
 app.get('*', (req, res) => {
     res.status(404).send('Not found on Linux continuous integration server');
