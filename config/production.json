@@ -1,5 +1,9 @@
 {
+    "developmentServerAddress": "192.168.0.199:1212/development",
     "repos": {
-        "easy-dev-api": "/home/pi/Desktop/servers/easy-dev-api"
+        "easy-dev-api": {
+            "development": "/home/pi/Desktop/servers/easy-dev-api",
+            "production": "/home/server/Desktop/servers/easy-dev-api"
+        }
     }
 }

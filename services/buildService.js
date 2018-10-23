@@ -3,10 +3,10 @@ const fs = require('fs-extra');
 const path = require('path');
 const logger = require('../logger');
 
-module.exports = async (repo, repoPath) => {
+module.exports = async (repo, repoPath, branchName) => {
     logger.info(`[START]=== Building ${repo} in ${repoPath}... ===[START]`);
 
-    await executeGitCommands(repoPath);
+    await executeGitCommands(repoPath, branchName);
     await executeInstallProductionModules(repoPath);
     await executePostBuildScripts(repoPath);
 
@@ -54,7 +54,7 @@ async function executePostBuildScripts(repoPath) {
  * Resets local changes, clears local changes, pulls latest files from github
  * @param {String} repoPath path of the project on the server
  */
-async function executeGitCommands(repoPath) {
+async function executeGitCommands(repoPath, branchName) {
     logger.info('--- Executing Git Commands ---');
 
     return new Promise((resolve, reject) => {
@@ -69,7 +69,7 @@ async function executeGitCommands(repoPath) {
                 if (err) reject(err);
 
                 logger.info('Pulling latest code from repository');
-                exec(`git -C ${repoPath} pull origin master`, (err, stdout, stderr) => {
+                exec(`git -C ${repoPath} pull origin ${branchName}`, (err, stdout, stderr) => {
                     execCallback(err, stdout, stderr);
                     if (err) reject(err);
 

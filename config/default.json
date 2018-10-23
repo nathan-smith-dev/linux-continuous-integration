@@ -1,6 +1,10 @@
 {
     "logfile": "logs/logfile.log", 
+    "developmentServerAddress": "https://tempintegserver.localtunnel.me/development",
     "repos": {
-        "easy-dev-api": ""
+        "testRepo": {
+            "production": "/Users/nathansmith/Projects/test/prodRepo",
+            "development": "/Users/nathansmith/Projects/test/devRepo"
+        }
     }
 }

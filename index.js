@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const log4js = require('log4js');
 const logger = require('./logger');
+const githubWebhookRoutes = require('./routes/githubWebookRoutes');
 
 // logging
 app.use(log4js.connectLogger(log4js.getLogger()));
@@ -13,7 +14,9 @@ app.use(morgan('tiny'));
 app.use(bodyParser.json());
 
 // routes
-require('./routes/integrationRoutes')(app);
+app.use('/servers', githubWebhookRoutes);
+app.use('/development', require('./routes/developmentRoutes'));
+// app.use(require('./routes/integrationRoutes'));
 
 app.get('*', (req, res) => {
     res.status(404).send('Not found on Linux continuous integration server');
