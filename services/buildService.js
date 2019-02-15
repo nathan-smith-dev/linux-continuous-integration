@@ -85,13 +85,30 @@ async function executeGitCommands(repoPath, branchName) {
  * @param {String} repoPath path of the project on the server
  */
 async function executeInstallProductionModules(repoPath) {
-    logger.info('--- Installing Production Modules ---');
-    return new Promise((resolve, reject) => {
-        exec(`npm -C ${repoPath} install --production`, (err, stdout, stderr) => {
-            execCallback(err, stdout, stderr);
-            if (err) reject(err);
+    const file = await fs.readFile(path.resolve(repoPath, 'package.json'));
+    const json = JSON.parse(file);
+    const buildScript = json.scripts['ns-build'];
 
-            resolve();
+    if (!buildScript) {
+        logger.info('--- Installing Production Modules ---');
+        return new Promise((resolve, reject) => {
+            exec(`npm -C ${repoPath} install --production`, (err, stdout, stderr) => {
+                execCallback(err, stdout, stderr);
+                if (err) reject(err);
+
+                resolve();
+            });
         });
+    }
+
+    return new Promise((resolve, reject) => {
+        if (buildScript) {
+            logger.info(`--- Executing build script: ${buildScript} ---`);
+            exec(buildScript, { cwd: repoPath }, (err, stdout, stderr) => {
+                execCallback(err, stdout, stderr);
+                if (err) reject(err);
+                resolve();
+            });
+        }
     });
 }
