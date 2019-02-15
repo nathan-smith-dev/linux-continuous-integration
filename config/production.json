@@ -4,6 +4,10 @@
         "easy-dev-api": {
             "development": "/home/pi/Desktop/servers/easy-dev-api",
             "production": "/home/server/Desktop/servers/easy-dev-api"
+        }, 
+        "how-routers-work": {
+            "development": "/home/pi/Desktop/servers/how-routers-work",
+            "production": "/home/server/Desktop/servers/how-routers-work"
         }
     }
 }
